@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.speech--bubble::before {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    border-width: 20px;
+    border-color: transparent #f3de8a transparent transparent;
+    top: 36px;
+    left: -40px;
+  }
+
+  .header {
+    backdrop-filter: blur(10px);
+  }
