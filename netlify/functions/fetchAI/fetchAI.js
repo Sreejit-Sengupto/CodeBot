@@ -12,7 +12,7 @@ const handler = async (event) => {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: event.body,
-      max_tokens: 60,
+      max_tokens: 700,
     });
     return {
       statusCode: 200,
