@@ -1,6 +1,4 @@
 import React from "react";
-import { process } from '../../env.js'
-import { Configuration, OpenAIApi } from 'openai'
 import { ReactComponent as Logo } from "../../public/images/loading.svg";
 import MyCodeEditor from "./MyCodeEditor";
 
@@ -14,11 +12,8 @@ export default function Bot() {
   const [loader, setLoader] = React.useState(false);
   const [code, setCode] = React.useState("");
 
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY
-  })
- const openai = new OpenAIApi(configuration)
 
+ const url = 'https://cheerful-nougat-4ccb49.netlify.app/.netlify/functions/fetchAI'
 
  function handleClick() {
     if(userInput) {
@@ -30,9 +25,12 @@ export default function Bot() {
  }
 
  async function fetchReply(userInput) {
-    const response = await openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: `Generate a message to enthusiastically say a question sounds interesting and you need some time to think about it.
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'content-type': 'text/plain'
+        },
+        body: `Generate a message to enthusiastically say a question sounds interesting and you need some time to think about it.
         ###
         question: Write a program to print factorial of a number in C.
         message: Wow! that's an interesting question to solve! Give me some time while my digital brain processes your request.
@@ -42,16 +40,19 @@ export default function Bot() {
         ###
         question: ${userInput}
         message:
-        `,
-        max_tokens: 60 
+        `
     })
-    setBotReply(response.data.choices[0].text.trim());
+    const data = await response.json()
+    setBotReply(data.reply.choices[0].text.trim());
 }
 
  async function fetchAnswer(userInput) {
-    const response = await openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: `Write a program in C according to the question provided by the user and provide a short description of it.
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'content-type': 'text/plain'
+        },
+        body: `Write a program in C according to the question provided by the user and provide a short description of it.
         ###
         question: Write a program to print factorial of a number in C.
         message: #include <stdio.h>
@@ -82,10 +83,10 @@ export default function Bot() {
         ###
         question: ${userInput} in C.
         message:
-        `,
-        max_tokens: 200 
+        `
     })
-    setCode(response.data.choices[0].text.trim());
+    const data = await response.json();
+    setCode(data.reply.choices[0].text.trim());
     setLoader(false);
     setUserInput("");
     setBotReply("");
