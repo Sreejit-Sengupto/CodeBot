@@ -28,7 +28,6 @@ export default function Bot() {
 
   async function fetchReply(userInput) {
     const response = await fetch(url, {
-      mode: "cors",
       method: "POST",
       headers: {
         "content-type": "text/plain",
@@ -51,7 +50,6 @@ export default function Bot() {
 
   async function fetchAnswer(userInput) {
     const response = await fetch(url, {
-      mode: "cors",
       method: "POST",
       headers: {
         "content-type": "text/plain",
