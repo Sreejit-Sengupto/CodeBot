@@ -9,6 +9,13 @@ CodeBot is your programming buddy which will help you in generating solutions to
 - Choose your folder. Open it in terminal.
 - Clone the project. Paste `git clone https://github.com/Sreejit-Sengupto/CodeBot.git` in your terminal
 - npm install to install the required dependencies
+- Create a env.js file and paste the following code:
+  `export const process = {
+    env: {
+        OPENAI_API_KEY: 'YOUR_API_KEY'
+    }
+}`
+- To get your API Key sign up on OPENAI and then navigate to 'View API keys' (You can find it by clicking on your profile picture) to generate one.
 - npm run dev to run the project.
 - The project is now running on your localhost.
 
