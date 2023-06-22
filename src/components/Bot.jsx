@@ -45,6 +45,7 @@ export default function Bot() {
         question: ${userInput}
         message:
         `,
+        max_token: 60
     });
     const data = await response.json();
     setBotReply(data.reply.choices[0].text.trim());
@@ -90,6 +91,7 @@ export default function Bot() {
         question: ${userInput} in C.
         message:
         `,
+        max_token: 500
     });
     const data = await response.json();
     setCode(data.reply.choices[0].text.trim());

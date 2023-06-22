@@ -10,10 +10,9 @@ const openai = new OpenAIApi(configuration);
 const handler = async (event) => {
   try {
     const response = await openai.createCompletion({
-      mode: 'cors',
       model: "text-davinci-003",
       prompt: event.body,
-      max_tokens: 700,
+      max_tokens: event.max_token,
     });
     return {
       statusCode: 200,
