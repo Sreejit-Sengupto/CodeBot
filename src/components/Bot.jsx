@@ -12,7 +12,7 @@ export default function Bot() {
 
   const [botReply, setBotReply] = React.useState("");
   const [loader, setLoader] = React.useState(false);
-  const [code, setCode] = React.useState("x");
+  const [code, setCode] = React.useState("");
 
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY
