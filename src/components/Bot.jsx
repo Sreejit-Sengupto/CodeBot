@@ -30,6 +30,7 @@ export default function Bot() {
     const response = await fetch(url, {
       method: "POST",
       headers: {
+        'access-control-allow-origin': "*",
         "content-type": "text/plain",
       },
       body: `Generate a message to enthusiastically say a question sounds interesting and you need some time to think about it.
@@ -52,6 +53,7 @@ export default function Bot() {
     const response = await fetch(url, {
       method: "POST",
       headers: {
+        'access-control-allow-origin': "*",
         "content-type": "text/plain",
       },
       body: `Write a program in C according to the question provided by the user and provide a short description of it.
