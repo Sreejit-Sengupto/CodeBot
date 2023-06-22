@@ -29,6 +29,7 @@ export default function Bot() {
   async function fetchReply(userInput) {
     const response = await fetch(url, {
       method: "POST",
+      mode: 'no-cors',
       headers: {
         'access-control-allow-origin': "*",
         "content-type": "text/plain",
@@ -52,6 +53,7 @@ export default function Bot() {
   async function fetchAnswer(userInput) {
     const response = await fetch(url, {
       method: "POST",
+      mode: 'no-cors',
       headers: {
         'access-control-allow-origin': "*",
         "content-type": "text/plain",
