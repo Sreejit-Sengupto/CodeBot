@@ -19,7 +19,7 @@ const MyCodeEditor = (props) => {
 
   const style = {
     width: "80%",
-    height: "500px",
+    height: "60vh",
     fontFamily: "Rubik",
     margin: "auto",
     marginTop: "5rem",
