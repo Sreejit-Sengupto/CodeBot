@@ -7,7 +7,7 @@ CodeBot is your programming buddy which will help you in generating solutions to
 - Install NodeJS. https://nodejs.org/en/download
 - Install git. https://git-scm.com/downloads
 - Choose your folder. Open it in terminal.
-- Clone the project. Paste `git clone https://github.com/Sreejit-Sengupto/CodeBot.git` in your terminal
+- Fork/Clone the project. Paste `git clone https://github.com/<YOUR_GITHUB_ID>/CodeBot.git` in your terminal
 - npm install to install the required dependencies
 - Create a env.js file and paste the following code:
   `export const process = {
