@@ -19,10 +19,10 @@ const MyCodeEditor = (props) => {
 
   const style = {
     width: "80%",
-    height: "60vh",
+    height: "60%",
     fontFamily: "Rubik",
     margin: "auto",
-    marginTop: "5rem",
+    marginTop: "4rem",
     fontSize: "16px",
   };
 
@@ -31,6 +31,8 @@ const MyCodeEditor = (props) => {
       <button
         onClick={() => {
           props.setDisplayText("");
+          props.setLanguage("");
+          props.setBotReply("");
         }}
         className="text-3xl font-bold cursor-pointer bg-none border-none text-[#F6F740]"
       >
@@ -46,6 +48,10 @@ const MyCodeEditor = (props) => {
         // editorProps={{ $blockScrolling: true }}
         style={style}
       />
+
+      {/* <div className="w-[80%] mx-auto h-[60%] rounded-xl bg-[#FF5E5E33] text-white p-12 font-Rubik header">
+        {code}
+      </div> */}
     </>
   );
 };

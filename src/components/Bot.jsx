@@ -1,8 +1,6 @@
 import React from "react";
-import { process } from '../../env.js'
-import { Configuration, OpenAIApi } from 'openai'
-import { ReactComponent as Logo } from "../../public/images/loading.svg";
 import MyCodeEditor from "./MyCodeEditor";
+import Language from "./Languages.jsx";
 
 export default function Bot() {
   const [userInput, setUserInput] = React.useState("");
@@ -10,110 +8,60 @@ export default function Bot() {
     setUserInput(event.target.value);
   }
 
-  const [botReply, setBotReply] = React.useState("");
+  const [botReply, setBotReply] = React.useState(""); // State to handle bot's speech bubble.
   const [loader, setLoader] = React.useState(false);
-  const [code, setCode] = React.useState("x");
+  const [language, setLangugage] = React.useState("");
+  const [code, setCode] = React.useState("");
 
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY
-  })
-  console.log(process.env.OPENAI_API_KEY);
- const openai = new OpenAIApi(configuration)
-
-
- function handleClick() {
+ async function handleClick() {
     if(userInput) {
         setLoader(true)
         setBotReply("Ok, just wait a second while my digital brain digests that...")
-        fetchReply(userInput)
-        fetchAnswer(userInput)
+        await fetchReply(userInput)
+        await fetchAnswer(userInput)
     }
  }
 
+ // Function to generate an enthusiastic message once the question is recieved.
  async function fetchReply(userInput) {
-    const response = await openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: `Generate a message to enthusiastically say a question sounds interesting and you need some time to think about it.
-        ###
-        question: Write a program to print factorial of a number in C.
-        message: Wow! that's an interesting question to solve! Give me some time while my digital brain processes your request.
-        ###
-        question: Write a program to print prime numbers till user given input in C.
-        message: I'll spend a few moments considering that. But that's a nice question to practice programming in C.
-        ###
-        question: ${userInput}
-        message:
-        `,
-        max_tokens: 60 
-    })
-    setBotReply(response.data.choices[0].text.trim());
+    await fetch(`http://localhost:5000/generate-message?userInput=${userInput}&language=${language}`)
+      .then(response => response.json())
+      .then(response => setBotReply(response.message.content))
 }
 
+// Function to generate the code according to the question.
  async function fetchAnswer(userInput) {
-    const response = await openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: `Write a program in C according to the question provided by the user and provide a short description of it.
-        ###
-        question: Write a program to print factorial of a number in C.
-        message: #include <stdio.h>
-                 void main()
-                 {
-                    printf("Hello World!");
-                 }
-                 // This program prints "Hello World" using the printf function provided by C.
-        ###
-        question: Write a program to check if a user entered number is prime or not in C.
-        message: #include <stdio.h>
-                 void main()
-                 {
-                    int n;
-                    printf("Enter a number");
-                    scanf("%d", &n);
-                    int c = 2;
-                    while(c < n)
-                    {
-                        if(n%c == 0)
-                        {
-                            printf("Not prime");
-                            break;
-                        }
-                    }
-                    printf("Prime");
-                 }
-        ###
-        question: ${userInput} in C.
-        message:
-        `,
-        max_tokens: 500 
-    })
-    setCode(response.data.choices[0].text.trim());
+    await fetch(`http://localhost:5000/get-code?userInput=${userInput}&language=${language}`)
+      .then(response => response.json())
+      .then(response => setCode(response.message.content))
     setLoader(false);
     setUserInput("");
     setBotReply("");
 }
 
   return (
-    code ? <MyCodeEditor displayText={code} setDisplayText={setCode} /> : <div className="bg-white w-[95%] lg:w-[40%] mx-auto mt-10 border-none rounded-xl flex flex-col items-center justify-center p-5">
+    code ? <MyCodeEditor displayText={code} setDisplayText={setCode} setLanguage={setLangugage} setBotReply={setBotReply}/> : <div className="bg-white w-[95%] lg:w-[40%] mx-auto mt-10 border-none rounded-xl flex flex-col items-center justify-center p-5">
       <div className="flex justify-center items-center">
         <img src="/images/robot.png" alt="" className=" w-60 ml-[-3rem] lg:w-72" />
-        <div className="relative w-56 lg:w-56 h-72 bg-[#f3de8a] border-none rounded-xl ml-[-35px] flex justify-center items-center speech--bubble">
-          <p className="font-Rubik pl-3">
-            {botReply === ""
-              ? "Ask me any programming question and I will give it's solution in C language"
-              : botReply}
-          </p>
+        <div className="relative lg:w-[17rem] h-72 bg-[#f3de8a] border-none rounded-xl ml-[-35px] flex justify-center items-center speech--bubble">
+          <div className="font-Rubik pl-3 w-full">
+            {language === "" ? <Language setLanguage={setLangugage} /> :
+            botReply === ""
+              ? <p>Ask me any programming question and I will give it&apos;s solution in {language}</p>
+              : <p>{botReply}</p>}
+          </div>
         </div>
       </div>
 
-      {loader ? <Logo/> : <div className="flex justify-center items-center mt-6">
+      {loader ? <img src="/images/loading.svg"/> : <div className="flex justify-center items-center mt-6">
         <input
           type="text"
-          placeholder="Write a program to print Hello World"
+          placeholder="Print Hello World"
           value={userInput}
           onChange={handleChange}
           className="border-none rounded-lg bg-[#e1e5f2] w-[65%] lg:w-[22rem] p-6 rounded-tr-none rounded-br-none font-Rubik text-[16px] focus:outline-none"
         />
-        <button className="w-28 p-[1.39rem] border-none rounded-lg bg-[#fe7f2d] rounded-tl-none rounded-bl-none font-Rubik text-xl text-white cursor-pointer" onClick={handleClick}>
+        <button disabled={userInput === ""} className="w-28 p-[1.39rem] border-none rounded-lg bg-[#fe7f2d] rounded-tl-none rounded-bl-none font-Rubik text-xl text-white cursor-pointer hover:bg-[#ff902f] disabled:hover:bg-[#fe7f2d] disabled:cursor-default" onClick={handleClick}>
           Ask
         </button>
       </div>}
