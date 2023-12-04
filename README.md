@@ -2,6 +2,7 @@
 CodeBot is your programming buddy which will help you in generating solutions to your programming question in 'C'. Just type in your question and the Bot is programmed to generate friendly enthusiatic replies and once the answer is ready you will get your code in a Code Editor. More features to come.....
 
 ![image](https://github.com/Sreejit-Sengupto/CodeBot/assets/69980616/5ebf12b8-2208-489c-9aed-1fdd2191459e)
+[Code backend here](https://github.com/Sreejit-Sengupto/CodeBot-Backend)
 
 ### How to install BotC on your local machine?
 - Install NodeJS. https://nodejs.org/en/download
